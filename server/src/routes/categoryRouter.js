@@ -8,4 +8,6 @@ categoryRouter.get('/', CategoryController.getAllCategories);
 
 categoryRouter.get('/:categoryId', isIdValid('categoryId'), CategoryController.getOneCategory);
 
+categoryRouter.get('/:categoryId/words', isIdValid('categoryId'), CategoryController.getWordsByCategory);
+
 module.exports = categoryRouter;
