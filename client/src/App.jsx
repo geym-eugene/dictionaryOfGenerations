@@ -4,6 +4,9 @@ import SignupPage from "./components/SignupPage";
 import LoginPage from "./components/LoginPage";
 import BebraPage from "./components/BebraPage";
 import { BrowserRouter, Route, Routes } from "react-router";
+import Header from "./components/Header";
+import HomePage from "./components/HomePage";
+import CategoryPage from "./components/CategoryPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -31,11 +34,11 @@ function App() {
     }
   };
 
-  // const logoutHandler = async () => {
-  //   await axiosInstance.get("/auth/logout");
-  //   setUser(null);
-  //   setAccessToken("");
-  // };
+  const logoutHandler = async () => {
+    await axiosInstance.get("/auth/logout");
+    setUser(null);
+    setAccessToken("");
+  };
 
   useEffect(() => {
     axiosInstance("/tokens/refresh")
@@ -48,7 +51,10 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header user={user} onLogout={logoutHandler} />
+
       <Routes>
+        <Route path="/" element={<HomePage />} />
         {/* <Route path="/" element={<Layout />}> */}
         <Route
           path="/signup"
@@ -59,6 +65,7 @@ function App() {
           element={<LoginPage signupHandler={loginHandler} />}
         />
         <Route path="/bebra" element={<BebraPage />} />
+        <Route path="/category/:category" element={<CategoryPage />} />
         {/* </Route> */}
       </Routes>
     </BrowserRouter>

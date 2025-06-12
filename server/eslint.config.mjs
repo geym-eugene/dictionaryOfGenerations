@@ -1,37 +1,44 @@
-import elbrusConfig from '@elbrus/eslint-config';
-import elbrusPlugin from '@elbrus/eslint-plugin';
 import js from '@eslint/js';
-import json from '@eslint/json';
-import { defineConfig } from 'eslint/config';
 import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
 
-export default defineConfig([
-  { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
+export default [
+  { ignores: ['dist'] },
   {
-    files: ['**/*.{js,mjs,cjs}'],
+    files: ['**/*.{js,jsx}'],
     languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.jest,
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
       },
     },
-  },
-  { files: ['**/*.{js,mjs,cjs}'], plugins: { js }, extends: ['js/recommended'] },
-  ...elbrusConfig,
-  {
     plugins: {
-      '@elbrus': elbrusPlugin,
+      react,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
     rules: {
-      '@elbrus/prefer-for-of': 'error',
+      ...js.configs.recommended.rules,
+      ...react.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      "react/prop-types": "off",
+      "react/no-unescaped-entities": "off",
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
     },
   },
-  {
-    files: ['**/*.json'],
-    plugins: { json },
-    language: 'json/json',
-    extends: ['json/recommended'],
-  },
-]);
-
+];
