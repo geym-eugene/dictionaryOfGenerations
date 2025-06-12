@@ -26,7 +26,7 @@ module.exports = class CategoryController {
 
     static async getLikedWords(req, res) {
     try {
-      const { id } = req.params;
+      const { id } = res.locals.user
       const likedWords = await UserService.getLikedWords(id);
       if (!likedWords) {
         return res.status(404).send('Нет таких слов');
