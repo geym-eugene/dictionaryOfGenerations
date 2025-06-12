@@ -1,4 +1,4 @@
-const WordService = require('../services/wordsServices');
+const WordService = require('../services/wordServices');
 
 class WordController {
   static async getAllWords(req, res) {

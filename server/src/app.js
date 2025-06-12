@@ -1,7 +1,7 @@
 const express = require('express');
-const catgoriesRouter = require('./routes/catgoriesRouter');
-const wordsRouter = require('./routes/wordsRouter');
-const usersRouter = require('./routes/usersRouter');
+const catgoryRouter = require('./routes/catgoryRouter');
+const wordRouter = require('./routes/wordRouter');
+const userRouter = require('./routes/userRouter');
 const authRouter = require('./routes/authRouter');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -12,9 +12,9 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
 
-app.use('/api/catgories', catgoriesRouter);
-app.use('/api/words', wordsRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/catgories', catgoryRouter);
+app.use('/api/words', wordRouter);
+app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
 module.exports = app;

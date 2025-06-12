@@ -6,6 +6,6 @@ const categoryRouter = express.Router();
 
 categoryRouter.get('/', CategoryController.getAllCategories);
 
-categoryRouter.get('/:id', isIdValid, CategoryController.getOneCategory);
+categoryRouter.get('/:categoryId', isIdValid('categoryId'), CategoryController.getOneCategory);
 
 module.exports = categoryRouter;
