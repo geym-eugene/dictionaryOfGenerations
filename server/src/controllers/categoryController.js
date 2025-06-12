@@ -1,4 +1,4 @@
-const CategoryService = require('../services/categoryServices');
+const CategoryService = require('../services/categoryService');
 
 class CategoryController {
   static async getAllCategories(req, res) {
