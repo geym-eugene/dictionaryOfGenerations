@@ -12,8 +12,8 @@ module.exports = class CategoryController {
 
   static async getOneUser(req, res) {
     try {
-      const { id } = req.params;
-      const oneUser = await UserService.getOneUser(id);
+      const { userId } = req.params;
+      const oneUser = await UserService.getOneUser(userId);
       if (!oneUser) {
         res.status(404).send('Tакой пользователь не найдена');
       }
@@ -26,8 +26,8 @@ module.exports = class CategoryController {
 
     static async getLikedWords(req, res) {
     try {
-      const { id } = res.locals.user
-      const likedWords = await UserService.getLikedWords(id);
+      const { userId } = res.locals.user
+      const likedWords = await UserService.getLikedWords(iduserId);
       if (!likedWords) {
         return res.status(404).send('Нет таких слов');
       }

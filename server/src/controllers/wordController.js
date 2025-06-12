@@ -12,8 +12,8 @@ class WordController {
 
   static async getOneWord(req, res) {
     try {
-      const { id } = req.params;
-      const word = await WordService.getOneWord(id);
+      const { wordId } = req.params;
+      const word = await WordService.getOneWord(wordId);
       if (!word) {
         res.status(404).send('Такое слово не найден');
       }
@@ -43,9 +43,9 @@ class WordController {
 
   static async editOneWord(req, res) {
     try {
-      const { id } = req.params;
+      const { wordId } = req.params;
       const { name, description, isModer, categoryId, userId } = req.body;
-      const editedWord = await WordService.editOneWord(id, {
+      const editedWord = await WordService.editOneWord(wordId, {
         name,
         description,
         isModer,
@@ -63,8 +63,8 @@ class WordController {
 
   static async deleteOneWord(req, res) {
     try {
-      const { id } = req.params;
-      const deletedWord = await WordService.deleteOneWord(id);
+      const { wordId } = req.params;
+      const deletedWord = await WordService.deleteOneWord(wordId);
       res.status(204).json(deletedWord);
     } catch (err) {
       if (err.message === 'Такого слова нет') {

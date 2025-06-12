@@ -4,22 +4,18 @@ import axiosInstance from "../axiosInstance";
 import "./CategoryPage.css";
 
 const CategoryPage = () => {
-  const { category } = useParams();
+  const { categoryId } = useParams();
+  console.log(categoryId)
   const [words, setWords] = useState([]);
   const [sortBy, setSortBy] = useState("alphabet");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchWords();
-  }, [category]);
+  const [commentInputs, setCommentInputs] = useState({}); // Для хранения текстов комментариев
 
   const fetchWords = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get(
-        `/api/words/category/${category}`
-      );
+      const response = await axiosInstance.get(`/categories/${categoryId}/words`);
       setWords(response.data);
       setError(null);
     } catch (err) {
@@ -30,32 +26,62 @@ const CategoryPage = () => {
     }
   };
 
+  console.log({words})
+
+  useEffect(() => {
+    fetchWords();
+  }, [categoryId]);
+
   const handleLike = async (wordId) => {
     try {
+      // Оптимистичное обновление
+      setWords(words.map(word => 
+        word.id === wordId ? { ...word, likes: (word.likes || 0) + 1 } : word
+      ));
+      
       await axiosInstance.post(`/api/words/${wordId}/like`);
-      fetchWords(); // Обновляем список после лайка
     } catch (err) {
       console.error("Ошибка при добавлении лайка:", err);
+      // Откатываем изменения при ошибке
+      fetchWords();
     }
   };
 
-  const handleComment = async (wordId, comment) => {
+  // Улучшенная версия handleComment
+  const handleComment = async (wordId) => {
+    const comment = commentInputs[wordId];
+    if (!comment?.trim()) return;
+
     try {
+      // Оптимистичное обновление
+      setWords(words.map(word => 
+        word.id === wordId 
+          ? { 
+              ...word, 
+              comments: [...(word.comments || []), comment] 
+            } 
+          : word
+      ));
+      
       await axiosInstance.post(`/api/words/${wordId}/comment`, { comment });
-      fetchWords(); // Обновляем список после добавления комментария
+      
+      // Очищаем поле ввода
+      setCommentInputs(prev => ({ ...prev, [wordId]: "" }));
     } catch (err) {
       console.error("Ошибка при добавлении комментария:", err);
+      fetchWords();
     }
   };
 
+  // Сортировка слов
   const sortedWords = [...words].sort((a, b) => {
     switch (sortBy) {
       case "alphabet":
         return a.word.localeCompare(b.word);
       case "likes":
-        return b.likes - a.likes;
+        return (b.likes || 0) - (a.likes || 0);
       case "date":
-        return new Date(b.createdAt) - new Date(a.createdAt);
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
       default:
         return 0;
     }
@@ -66,12 +92,6 @@ const CategoryPage = () => {
 
   return (
     <div className="category-page">
-      <h1 className="category-title">
-        {category === "boomers" && "Сленг Бумеров"}
-        {category === "zoomers" && "Сленг Зумеров"}
-        {category === "millennials" && "Сленг Миллениалов"}
-      </h1>
-
       <div className="sort-controls">
         <select
           value={sortBy}
@@ -98,16 +118,22 @@ const CategoryPage = () => {
                     className="like-button"
                     onClick={() => handleLike(word.id)}
                   >
-                    ❤️ {word.likes}
+                    ❤️ {word.likes || 0}
                   </button>
                   <div className="comments-section">
                     <input
                       type="text"
                       placeholder="Добавить комментарий..."
+                      value={commentInputs[word.id] || ""}
+                      onChange={(e) => 
+                        setCommentInputs(prev => ({ 
+                          ...prev, 
+                          [word.id]: e.target.value 
+                        }))
+                      }
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
-                          handleComment(word.id, e.target.value);
-                          e.target.value = "";
+                          handleComment(word.id);
                         }
                       }}
                     />

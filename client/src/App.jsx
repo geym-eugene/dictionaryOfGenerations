@@ -6,7 +6,8 @@ import BebraPage from "./components/BebraPage";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Header from "./components/Header";
 import HomePage from "./components/HomePage";
-import CategoryPage from "./components/CategoryPage";
+// import CategoryPage from "./components/CategoryPage";
+import ZoomersPage from "./components/ZoomersPage"
 
 function App() {
   const [user, setUser] = useState();
@@ -41,7 +42,7 @@ function App() {
   };
 
   useEffect(() => {
-    axiosInstance("/tokens/refresh")
+    axiosInstance("/auth/refresh")
       .then((res) => {
         setUser(res.data.user);
         setAccessToken(res.data.accessToken);
@@ -65,7 +66,7 @@ function App() {
           element={<LoginPage signupHandler={loginHandler} />}
         />
         <Route path="/bebra" element={<BebraPage />} />
-        <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/category/:categoryId" element={<ZoomersPage />} />
         {/* </Route> */}
       </Routes>
     </BrowserRouter>

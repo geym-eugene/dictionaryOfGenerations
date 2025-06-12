@@ -1,24 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./HomePage.css";
+import axiosInstance from "../axiosInstance";
 
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedLetter, setSelectedLetter] = useState("all");
+  // const [selectedLetter, setSelectedLetter] = useState("all");
+  const [category, setCategory] = useState([])
+
   const navigate = useNavigate();
 
-  const categories = [
-    { id: "zoomers", name: "Зумеры" },
-    { id: "boomers", name: "Бумеры" },
-    { id: "millennials", name: "Миллениалы" },
-  ];
+  useEffect(() => {
+    axiosInstance('/categories').then((res) => setCategory(res.data))
+  }, [])
+  // console.log({category})
 
   // const alphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".split("");
 
   const handleCategoryClick = (categoryId) => {
     navigate(`/category/${categoryId}`);
   };
+
+const filteredCategories = selectedCategory === "all" 
+  ? category 
+  : category.filter(cat => cat.id.toString() === selectedCategory);
 
   return (
     <div className="home-container">
@@ -44,9 +50,9 @@ const HomePage = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               <option value="all">Все категории</option>
-              {categories.map((category) => (
+              {category.map((category) => (
                 <option key={category.id} value={category.id}>
-                  {category.name}
+                  {category.categoryName}
                 </option>
               ))}
             </select>
@@ -69,14 +75,13 @@ const HomePage = () => {
       </div>
 
       <div className="categories-grid">
-        {categories.map((category) => (
+        {filteredCategories.map((category) => (
           <div
             key={category.id}
             className="category-card"
             onClick={() => handleCategoryClick(category.id)}
           >
-            <h2>{category.name}</h2>
-            <p>Исследуйте сленг поколения {category.name.toLowerCase()}</p>
+            <h2>{category.categoryName}</h2>
           </div>
         ))}
       </div>
