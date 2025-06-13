@@ -1,4 +1,7 @@
 const { Category, Word } = require('../../db/models');
+const UserMessage = require('../models/UserMessage');
+const SystemMessage = require('../models/SystemMessage');
+const aiService = require('./AIService');
 
 class CategoryService {
   static async getAllCategories() {
@@ -11,11 +14,55 @@ class CategoryService {
     return oneCategory;
   }
 
-    static async getWordsByCategory(id) {
+  static async getWordsByCategory(id) {
     const words = await Word.findAll({
       where: { categoryId: id },
     });
     return words;
+  }
+
+  static async getHint(categoryId, wordId) {
+    try {
+      // Проверяем существование слова в категории
+      const word = await Word.findOne({
+        where: {
+          id: wordId,
+          categoryId: categoryId,
+        },
+      });
+
+      if (!word) {
+        throw new Error('Слово не найдено в указанной категории');
+      }
+
+      // Генерируем промпт для AI
+      const messages = [
+        new SystemMessage(
+          'Ты эксперт по сленгу разных поколений (зумеры, бумеры, миллениалы). ' +
+            'Сгенерируй одно естественное предложение, использующее это слово в контексте.\n\n' +
+            `Слово: ${word.name}\n` +
+            `Описание: ${word.description || 'нет описания'}`,
+        ),
+        new UserMessage('Придумай пример использования этого слова в предложении.'),
+      ];
+
+      // Получаем ответ от AI
+      const aiResponse = await aiService.chatCompletions(messages);
+      return {
+        success: true,
+        hint: aiResponse.content,
+        word: {
+          id: word.id,
+          name: word.name,
+        },
+      };
+    } catch (error) {
+      console.error('Error in getHint:', error);
+      return {
+        success: false,
+        error: error.message,
+      };
+    }
   }
 }
 

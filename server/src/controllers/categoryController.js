@@ -24,6 +24,34 @@ class CategoryController {
     }
   }
 
+  static async getHint(req, res) {
+    try {
+      const { categoryId } = req.params;
+      const { wordId } = req.query;
+
+      if (!wordId) {
+        return res.status(400).json({
+          success: false,
+          error: 'Не указан wordId в параметрах запроса',
+        });
+      }
+
+      const result = await CategoryService.getHint(categoryId, wordId);
+
+      if (!result.success) {
+        return res.status(404).json(result);
+      }
+
+      res.json(result);
+    } catch (error) {
+      console.error('Error in getHint controller:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message || 'Внутренняя ошибка сервера',
+      });
+    }
+  }
+
   static async getWordsByCategory(req, res) {
     try {
       const { categoryId } = req.params;
