@@ -11,7 +11,7 @@ import ProtectedRoute from "./components/utils/ProtectedRoute";
 
 function App() {
   const [user, setUser] = useState();
-
+  const [loading, setLoading] = useState(true);
   const signupHandler = async (event) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.target));
@@ -47,8 +47,13 @@ function App() {
         setUser(res.data.user);
         setAccessToken(res.data.accessToken);
       })
-      .catch(() => setUser(null));
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false))
   }, []);
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <BrowserRouter>

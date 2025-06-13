@@ -11,14 +11,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.Category, { foreignKey: 'categoryId' });
       this.belongsTo(models.User, { foreignKey: 'userId' });
-      this.belongsToMany(models.User, { through: models.Like, foreignKey: 'wordId', as: 'usersWhoLiked' });
+      this.belongsToMany(models.User, {
+        through: models.Like,
+        foreignKey: 'wordId',
+        as: 'usersWhoLiked',
+      });
     }
   }
   Word.init(
     {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
-      isModer: DataTypes.BOOLEAN,
+      isModer: { type: DataTypes.BOOLEAN, defaultValue: false },
       categoryId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
     },

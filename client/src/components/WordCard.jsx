@@ -6,7 +6,6 @@ export default function WordCard({ word, categoryId }) {
   const [hint, setHint] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  console.log(hint)
 
   const fetchHint = async () => {
     try {
