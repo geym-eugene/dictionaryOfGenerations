@@ -16,7 +16,7 @@ class CategoryService {
 
   static async getWordsByCategory(id) {
     const words = await Word.findAll({
-      where: { categoryId: id },
+      where: { categoryId: id, isModer: true },
     });
     return words;
   }

@@ -2,7 +2,12 @@ const { Word } = require('../../db/models');
 
 class WordService {
   static async getAllWords() {
-    const allWords = await Word.findAll();
+    const allWords = await Word.findAll({
+      where: {
+        isModer: false,
+      },
+    });
+    console.log(allWords);
     return allWords;
   }
 
@@ -31,7 +36,7 @@ class WordService {
       throw new Error('Такого слова нет');
     }
     const deletedWord = await word.destroy();
-    return deletedWord
+    return deletedWord;
   }
 }
 

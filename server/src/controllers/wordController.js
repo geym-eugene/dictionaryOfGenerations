@@ -45,14 +45,16 @@ class WordController {
     try {
       const { wordId } = req.params;
       const { name, description, isModer, categoryId, userId } = req.body;
-      const editedWord = await WordService.editOneWord(wordId, {
-        name,
-        description,
-        isModer,
-        categoryId,
-        userId,
-      });
-      res.status(200).json(editedWord);
+      if (res.locals.user.isAdmin) {
+        const editedWord = await WordService.editOneWord(wordId, {
+          name,
+          description,
+          isModer,
+          categoryId,
+          userId,
+        });
+        res.status(200).json(editedWord);
+      }
     } catch (err) {
       if (err.message === 'Такого слова нет') {
         res.status(404).send('Такое слово не найдео');
@@ -64,8 +66,10 @@ class WordController {
   static async deleteOneWord(req, res) {
     try {
       const { wordId } = req.params;
-      const deletedWord = await WordService.deleteOneWord(wordId);
-      res.status(204).json(deletedWord);
+      if (res.locals.user.isAdmin) {
+        const deletedWord = await WordService.deleteOneWord(wordId);
+        res.status(204).json(deletedWord);
+      }
     } catch (err) {
       if (err.message === 'Такого слова нет') {
         res.status(404).send('Такое слово не найдено');
