@@ -26,6 +26,10 @@ const Header = ({ user, logoutHandler }) => {
               <button onClick={handleClick} className="nav-button logout">
                 Выход
               </button>
+              {user?.isAdmin && <Link to="/admin" className="nav-button">
+                ADMIN
+              </Link>}
+              
             </>
           )}
           {!user && (

@@ -56,27 +56,27 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="words-page">
+    <div className="admin-page">
       <div className="words-header">
         <h2>Слова на модерации</h2>
       </div>
 
-      <div className="words-container">
+      <div className="words-grid">
         {words.length === 0 ? (
-          <p>Нет слов на модерации</p>
+          <p className="no-words">Нет слов на модерации</p>
         ) : (
           words.map((word) => (
-            <div key={word.id} className="word-card-container">
+            <div key={word.id} className="moderation-card">
               <WordCard word={word} categoryId={categoryId} />
-              <div className="moderation-buttons">
+              <div className="card-actions">
                 <button
-                  className="approve-button"
+                  className="action-button approve"
                   onClick={() => handleApproveWord(word.id)}
                 >
                   Одобрить
                 </button>
                 <button
-                  className="delete-button"
+                  className="action-button reject"
                   onClick={() => handleDeleteWord(word.id)}
                 >
                   Удалить
