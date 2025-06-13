@@ -1,7 +1,14 @@
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
 import "./Header.css";
+import { useNavigate } from "react-router";
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, logoutHandler }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    logoutHandler(e, () => navigate("/login"));
+  };
+
   return (
     <header className="main-header">
       <div className="header-container">
@@ -10,18 +17,18 @@ const Header = ({ user, onLogout }) => {
         </Link>
 
         <nav className="nav-buttons">
-          <Link to="/" className="nav-button">
-            Главная
-          </Link>
-
-          {user ? (
+          {user && (
             <>
+              <Link to="/" className="nav-button">
+                Главная
+              </Link>
               <span className="user-greeting">Привет, {user.username}!</span>
-              <button onClick={onLogout} className="nav-button logout">
+              <button onClick={handleClick} className="nav-button logout">
                 Выход
               </button>
             </>
-          ) : (
+          )}
+          {!user && (
             <>
               <Link to="/login" className="nav-button">
                 Вход

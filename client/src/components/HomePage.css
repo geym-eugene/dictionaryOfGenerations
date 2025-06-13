@@ -93,6 +93,8 @@
 }
 
 .category-card {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
   background-color: #fff;
   border-radius: 16px;
   padding: 2rem;

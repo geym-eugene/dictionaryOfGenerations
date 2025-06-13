@@ -4,7 +4,7 @@ import "./HomePage.css";
 import axiosInstance from "../axiosInstance";
 
 const HomePage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   // const [selectedLetter, setSelectedLetter] = useState("all");
   const [category, setCategory] = useState([])
@@ -27,13 +27,14 @@ const filteredCategories = selectedCategory === "all"
   : category.filter(cat => cat.id.toString() === selectedCategory);
 
   return (
+        <div>
     <div className="home-container">
       <header className="header">
         <h1>Словарь Современного Сленга</h1>
         <p className="subtitle">Исследуйте современный язык разных поколений</p>
       </header>
 
-      <div className="search-section">
+      {/* <div className="search-section">
         <div className="search-bar">
           <input
             type="text"
@@ -41,7 +42,7 @@ const filteredCategories = selectedCategory === "all"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </div> */}
 
         <div className="filters">
           <div className="category-filter">
