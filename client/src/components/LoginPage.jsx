@@ -1,25 +1,13 @@
-// import React from "react";
-// import { useNavigate } from "react-router";
-
-// export default function LoginPage({ loginHandler }) {
-//   const navigate = useNavigate();
-//   return (
-//     <form onSubmit={(e) => loginHandler(e, navigate("/bebra"))}>
-//       <input name="email" type="email" placeholder="Введи email" />
-//       <input name="password" type="password" placeholder="Введи пароль" />
-//       <button type="submit">Log in</button>
-//     </form>
-//   );
-// }
 
 import { useNavigate } from "react-router";
 import "./AuthPages.css";
 
-const LoginPage = ({ signupHandler }) => {
+const LoginPage = ({ loginHandler }) => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    signupHandler(e, () => navigate("/"));
+    e.preventDefault()
+    loginHandler(e, () => navigate("/"));
   };
 
   return (
@@ -30,13 +18,13 @@ const LoginPage = ({ signupHandler }) => {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="username">Имя пользователя</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="username"
-              name="username"
+              type="email"
+              id="email"
+              name="email"
               required
-              placeholder="Введите имя пользователя"
+              placeholder="Введите email"
             />
           </div>
 
