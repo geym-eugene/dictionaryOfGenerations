@@ -8,6 +8,7 @@ import HomePage from "./components/HomePage";
 // import CategoryPage from "./components/CategoryPage";
 import ZoomersPage from "./components/ZoomersPage";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
+import ErrorPage from "./components/ErrorPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -80,6 +81,7 @@ function App() {
           <Route path="/" element={<HomePage user={user} />} />
           <Route path="/category/:categoryId" element={<ZoomersPage />} />
         </Route>
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
