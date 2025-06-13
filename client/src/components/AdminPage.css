@@ -1,36 +1,96 @@
-.word-card-container {
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
+.admin-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.moderation-buttons {
+.words-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.words-header h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.words-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.moderation-card {
   display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #f8f9fa;
+  width: 400px;
+
+}
+
+.moderation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-actions {
+  display: flex;
+  padding: 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 40px;
 }
 
-.approve-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 8px 16px;
+.action-button {
+  flex: 1;
+  padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
-.delete-button {
-  background-color: #f44336;
+.action-button.approve {
+  background-color: #28a745;
   color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+}
+
+.action-button.reject {
+  background-color: #dc3545;
+  color: white;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.no-words {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 40px;
+  color: #6c757d;
+  font-size: 18px;
 }
 
 .loading-message {
   text-align: center;
-  padding: 20px;
+  padding: 40px;
+  color: #6c757d;
+  font-size: 18px;
+  
+}
+
+.error-message {
+  text-align: center;
+  padding: 40px;
+  color: #dc3545;
   font-size: 18px;
 }
