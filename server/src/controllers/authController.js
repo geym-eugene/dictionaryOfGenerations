@@ -46,6 +46,8 @@ class AuthController {
         .cookie('refreshToken', refreshToken, cookieConfig)
         .json({ user, accessToken });
     } catch (error) {
+      console.log(error);
+
       const { message } = error;
       if (message.includes('Пользователь не найден'))
         return res.status(401).json({ message: 'Неверный email или пароль' });
