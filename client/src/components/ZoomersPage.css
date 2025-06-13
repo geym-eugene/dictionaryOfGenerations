@@ -1,3 +1,9 @@
+  .words-header {
+padding-left: 60px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  }
+
 .words-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -30,7 +36,8 @@
   transform: rotateY(180deg);
 }
 
-.card-front, .card-back {
+.card-front,
+.card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -92,5 +99,148 @@
 @media (max-width: 768px) {
   .words-container {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+  /* margin-left: -13px; */
+  
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 3px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  transition: all 0.3s ease;
+  background-color: #f8f9fa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #6c757d;
+  box-shadow: 0 0 0 2px rgba(108, 117, 125, 0.2);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Стили для кнопок */
+.add-word-button,
+.modal-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+.add-word-button {
+  background-color: #6c757d;
+  color: white;
+  padding-left: 20px;
+
+}
+
+.add-word-button:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-actions button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.modal-actions button[type="submit"]:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.modal-actions button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-actions button[type="button"]:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Стили для модального окна */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #333;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .words-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .add-word-button {
+    padding-left: 0;
+    padding-top: 15px;
   }
 }
