@@ -1,4 +1,4 @@
-const { Category, Word } = require('../../db/models');
+const { Category, Word, User } = require('../../db/models');
 const UserMessage = require('../models/UserMessage');
 const SystemMessage = require('../models/SystemMessage');
 const aiService = require('./AIService');
@@ -14,11 +14,20 @@ class CategoryService {
     return oneCategory;
   }
 
-  static async getWordsByCategory(id) {
+  // это относится к лайкам
+  static async getWordsByCategory(id, userId) {
     const words = await Word.findAll({
+      include: [{ model: User, as: 'usersWhoLiked' }],
       where: { categoryId: id, isModer: true },
     });
-    return words;
+
+    const data = JSON.parse(JSON.stringify(words)).map((word) => ({
+      ...word,
+      likesCount: word.usersWhoLiked.length,
+      isLiked: !!word.usersWhoLiked.find((like) => like.id === userId),
+      usersWhoLiked: undefined,
+    }));
+    return data;
   }
 
   static async getHint(categoryId, wordId) {

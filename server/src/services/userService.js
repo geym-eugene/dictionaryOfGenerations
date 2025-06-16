@@ -1,4 +1,4 @@
-const { User, Word } = require('../../db/models');
+const { User, Word, Like } = require('../../db/models');
 
 module.exports = class UserService {
   static async getAllUsers() {
@@ -9,6 +9,11 @@ module.exports = class UserService {
   static async getOneUser(id) {
     const oneUser = await User.findByPk(id);
     return oneUser;
+  }
+
+  static async createLike(id, wordId) {
+    const created = await Like.create({userId: id, wordId: wordId});
+    return created
   }
 
   // получаем все лайкнутные слова юзера

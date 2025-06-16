@@ -67,7 +67,7 @@ export default function AdminPage() {
         ) : (
           words.map((word) => (
             <div key={word.id} className="moderation-card">
-              <WordCard word={word} categoryId={categoryId} />
+              <WordCard word={word} categoryId={categoryId}/>
               <div className="card-actions">
                 <button
                   className="action-button approve"

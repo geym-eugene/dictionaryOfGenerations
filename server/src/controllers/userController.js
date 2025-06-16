@@ -6,7 +6,9 @@ module.exports = class CategoryController {
       const allUsers = await UserService.getAllUsers();
       res.json(allUsers);
     } catch (err) {
-      res.status(500).json({ message: err.message, text: 'Ошибка получения пользователей' });
+      res
+        .status(500)
+        .json({ message: err.message, text: 'Ошибка получения пользователей' });
     }
   }
 
@@ -20,13 +22,15 @@ module.exports = class CategoryController {
       res.json(oneUser);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: err.message, text: 'Ошибка получения пользователя' });
+      res
+        .status(500)
+        .json({ message: err.message, text: 'Ошибка получения пользователя' });
     }
   }
 
-    static async getLikedWords(req, res) {
+  static async getLikedWords(req, res) {
     try {
-      const { userId } = res.locals.user
+      const { userId } = res.locals.user;
       const likedWords = await UserService.getLikedWords(userId);
       if (!likedWords) {
         return res.status(404).send('Нет таких слов');
@@ -39,4 +43,24 @@ module.exports = class CategoryController {
       res.status(500).json({ message: error.message, text: 'Не удалось получить слова' });
     }
   }
-}
+
+  static async createLike(req, res) {
+    try {
+      const { id } = res.locals.user;
+      const { wordId } = req.body;
+      const created = await UserService.createLike(id, wordId);
+      if (!created) {
+        return res.status(404).send('Нет удалось создать лайк');
+      }
+      res.status(200).json(created);
+    } catch (error) {
+      if (error.message === 'Нет такого пользователя') {
+        return res.status(404).send('Такой пользователь не найден');
+      }
+      res.status(500).json({ message: error.message, text: 'Не удалось получить лайки' });
+    }
+  }
+};
+
+
+

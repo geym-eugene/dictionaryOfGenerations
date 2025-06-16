@@ -52,10 +52,13 @@ class CategoryController {
     }
   }
 
+
+  // это относится к лайкам
   static async getWordsByCategory(req, res) {
     try {
       const { categoryId } = req.params;
-      const words = await CategoryService.getWordsByCategory(categoryId);
+      const { id } = res.locals.user
+      const words = await CategoryService.getWordsByCategory(categoryId, id);
       if (!words) {
         return res.status(404).send('Нет таких слов');
       }

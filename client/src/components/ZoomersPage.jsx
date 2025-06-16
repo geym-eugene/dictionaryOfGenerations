@@ -4,7 +4,7 @@ import axiosInstance from "../axiosInstance";
 import WordCard from "./WordCard";
 import "./ZoomersPage.css";
 
-export default function ZoomersPage() {
+export default function ZoomersPage({ user }) {
   const { categoryId } = useParams();
   const [words, setWords] = useState([]);
   const [error, setError] = useState(null);
@@ -71,7 +71,7 @@ export default function ZoomersPage() {
           <p>Нет слов в этой категории</p>
         ) : (
           words.map((word) => (
-            <WordCard key={word.id} word={word} categoryId={categoryId} />
+            <WordCard key={word.id} word={word} categoryId={categoryId} user={user}/>   // это относится к лайкам ЮЗЕР ПРОПСОМ ПРОКИДЫВАЕМ
           ))
         )}
       </div>

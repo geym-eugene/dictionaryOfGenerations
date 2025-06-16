@@ -11,4 +11,6 @@ userRouter.get('/:userId', isIdValid('userId'), UserController.getOneUser);
 
 userRouter.get('/likes', verifyAccessToken, UserController.getLikedWords);
 
+userRouter.post('/likes', verifyAccessToken, UserController.createLike);   // это относится к лайкам
+
 module.exports = userRouter;

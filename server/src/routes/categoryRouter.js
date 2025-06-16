@@ -1,6 +1,7 @@
 const express = require('express');
 const CategoryController = require('../controllers/categoryController');
 const isIdValid = require('../middlewares/isIdValid');
+const verifyAccessToken = require('../middlewares/verifyAccessToken');
 
 const categoryRouter = express.Router();
 
@@ -12,9 +13,11 @@ categoryRouter.get(
   CategoryController.getOneCategory,
 );
 
+  // это относится к лайкам
 categoryRouter.get(
   '/:categoryId/words',
   isIdValid('categoryId'),
+  verifyAccessToken,
   CategoryController.getWordsByCategory,
 );
 
