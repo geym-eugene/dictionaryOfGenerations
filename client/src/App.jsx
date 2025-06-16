@@ -10,6 +10,7 @@ import ZoomersPage from "./components/ZoomersPage";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
 import ErrorPage from "./components/ErrorPage";
 import AdminPage from "./components/AdminPage";
+import UserPage from "./components/UserPage";
 
 function App() {
   const [user, setUser] = useState();
@@ -56,7 +57,7 @@ function App() {
   if (loading) {
     return <div>loading...</div>;
   }
-  console.log(user)
+  // console.log(user)
 
   return (
     <BrowserRouter>
@@ -82,7 +83,7 @@ function App() {
         > 
           <Route path="/" element={<HomePage user={user} />} />
           <Route path="/category/:categoryId" element={<ZoomersPage />} />
-          {/* <Route path="/personal" element={<UserPage />} /> */}
+          <Route path="/personal" element={<UserPage />} />
           
         </Route>
          <Route element={<ProtectedRoute isAllowed={user?.isAdmin} redirectPath="/" />}>

@@ -13,9 +13,27 @@
 
 import { useNavigate } from "react-router";
 import "./AuthPages.css";
+import { useEffect, useState } from "react";
 
 const SignupPage = ({ signupHandler }) => {
+  const [inpValue, setInpValue] = useState('')
+  const [inpValueRepeat, setInpValueRepeat] = useState('')
+
+  const [isDisabled, setIsDisabled] = useState(true);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(inpValue !== inpValueRepeat) setIsDisabled(true);
+    else if (inpValue.length < 3 || inpValue.length > 10 || !(/(?=.*\d)(?=.*[A-Z])/.test(inpValue))) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [inpValue, inpValueRepeat]);
+
+  const handleChange = (event) => setInpValue(event.target.value);
+  const handleChangeRepeat = (event) => setInpValueRepeat(event.target.value)
+
 
   const handleSubmit = (e) => {
     signupHandler(e);
@@ -59,10 +77,21 @@ const SignupPage = ({ signupHandler }) => {
               name="password"
               required
               placeholder="Придумайте пароль"
+              onChange={handleChange}
             />
           </div>
 
-          <button type="submit" className="auth-button">
+                    <div className="form-group">
+            <input
+              type="password"
+              id="password"
+              required
+              placeholder="Повторите пароль"
+              onChange={handleChangeRepeat}
+            />
+          </div>
+
+          <button disabled={isDisabled} type="submit" className="auth-button">
             Зарегистрироваться
           </button>
         </form>
