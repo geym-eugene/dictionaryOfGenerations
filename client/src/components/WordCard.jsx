@@ -1,53 +1,60 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosInstance";
 
-export default function WordCard({ word, user, categoryId }) {
+export default function WordCard({ word: initialWord, user, categoryId }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [hint, setHint] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [countLikes, setCountLikes] = useState(user.usersWhoLiked || 0);
-  const [isLiked, setIsLiked] = useState(false);
+  const [word, setWord] = useState(initialWord);
   const [likeLoading, setLikeLoading] = useState(false);
 
     // это относится к лайкам
-  const handleCreateLike = async () => {
-    try {
-      setIsLiked(true);
-      setCountLikes((prev) => prev + 1);
+useEffect(() => {
+    setWord(initialWord);
+  }, [initialWord]);
 
+  const handleCreateLike = async () => {
+    if (!user?.id) {
+      alert("Войдите в систему, чтобы добавлять в избранное");
+      return;
+    }
+
+    setLikeLoading(true);
+    try {
       const response = await axiosInstance.post("/users/likes", {
         userId: user.id,
-        wordId: word.id,
+        wordId: word.id
       });
 
-      // setCountLikes(response.data.likesCount);
+      setWord(prev => ({
+        ...prev,
+        likesCount: response.data.likesCount,
+        isLiked: response.data.isLiked
+      }));
     } catch (error) {
-      setIsLiked(false);
-      setCountLikes((prev) => prev - 1);
       console.error("Ошибка при добавлении лайка:", error);
     } finally {
       setLikeLoading(false);
     }
   };
 
-  const handleDeleteLike = async () => {
+ const handleDeleteLike = async () => {
     setLikeLoading(true);
     try {
-      setIsLiked(false);
-      setCountLikes((prev) => Math.max(0, prev - 1));
-
       const response = await axiosInstance.delete("/likes", {
         data: {
           userId: user.id,
-          wordId: word.id,
-        },
+          wordId: word.id
+        }
       });
 
-      // setCountLikes(response.data.likesCount);
+      setWord(prev => ({
+        ...prev,
+        likesCount: response.data.likesCount,
+        isLiked: response.data.isLiked
+      }));
     } catch (error) {
-      setIsLiked(true);
-      setCountLikes((prev) => prev + 1);
       console.error("Ошибка при удалении лайка:", error);
     } finally {
       setLikeLoading(false);
@@ -58,7 +65,7 @@ export default function WordCard({ word, user, categoryId }) {
     e.stopPropagation();
     if (likeLoading) return;
 
-    if (isLiked) {
+    if (word.isLiked) {
       await handleDeleteLike();
     } else {
       await handleCreateLike();
@@ -114,7 +121,7 @@ export default function WordCard({ word, user, categoryId }) {
           <div className="card-front">
             <h3>{word.name}</h3>
             <p>{word.description}</p>
-            <span className="likes-count">♥ {countLikes}</span>
+            <span className="likes-count">♥ {word.likesCount}</span>
             {loading && !isFlipped && (
               <div className="loading-indicator">Загрузка...</div>
             )}
@@ -133,13 +140,13 @@ export default function WordCard({ word, user, categoryId }) {
         </div>
       </div>
       <button
-        className={`favorite-button ${isLiked ? "liked" : ""}`}
+        className={`favorite-button ${word.isLiked ? 'liked' : ''}`}
         onClick={toggleLike}
         disabled={likeLoading}
       >
         {likeLoading
           ? "..."
-          : isLiked
+          : word.isLiked
           ? "Удалить из избранного"
           : "Добавить в избранное"}
       </button>

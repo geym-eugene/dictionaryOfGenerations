@@ -12,7 +12,7 @@ export default function UserPage() {
   const fetchWords = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get("/likes");
+      const response = await axiosInstance.get("/users/likes");
 
       setWords(response.data);
     } catch (err) {

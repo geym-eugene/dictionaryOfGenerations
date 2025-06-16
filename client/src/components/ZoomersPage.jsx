@@ -14,6 +14,7 @@ export default function ZoomersPage({ user }) {
     description: "",
     categoryId,
   });
+  
   const fetchWords = async () => {
     try {
       const response = await axiosInstance(`/categories/${categoryId}/words`);
