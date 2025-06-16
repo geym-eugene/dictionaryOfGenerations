@@ -79,9 +79,10 @@ function App() {
         {/* Защищённые роуты (только для авторизованных) */}
         <Route
           element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
-        >
+        > 
           <Route path="/" element={<HomePage user={user} />} />
           <Route path="/category/:categoryId" element={<ZoomersPage />} />
+          {/* <Route path="/lc" element={<UserPage />} /> */}
           
         </Route>
          <Route element={<ProtectedRoute isAllowed={user?.isAdmin} redirectPath="/" />}>

@@ -22,6 +22,7 @@ class AuthController {
       res
         .status(200)
         .cookie('refreshToken', refreshToken, cookieConfig)
+        .cookie('accessToken', accessToken, cookieConfig)
         .json({ user, accessToken });
     } catch (error) {
       console.log(error);
@@ -44,6 +45,7 @@ class AuthController {
       res
         .status(200)
         .cookie('refreshToken', refreshToken, cookieConfig)
+        .cookie('accessToken', accessToken, cookieConfig)
         .json({ user, accessToken });
     } catch (error) {
       console.log(error);

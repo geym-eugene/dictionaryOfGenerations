@@ -13,7 +13,7 @@ export default function AdminPage() {
   const fetchWords = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get("/words?isModer=false");
+      const response = await axiosInstance.get("/words");
       setWords(response.data);
     } catch (err) {
       setError("Не удалось загрузить слова");

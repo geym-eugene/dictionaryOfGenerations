@@ -4,8 +4,10 @@ const isIdValid = require('../middlewares/isIdValid');
 const verifyAccessToken = require('../middlewares/verifyAccessToken')
 
 const wordRouter = express.Router();
+const categoryRouter = express.Router();
 
 wordRouter.get('/', WordController.getAllWords);
+// wordRouter.get('/', WordController.getAllWords);
 
 wordRouter.get('/:wordId', isIdValid('wordId'), WordController.getOneWord);
 
