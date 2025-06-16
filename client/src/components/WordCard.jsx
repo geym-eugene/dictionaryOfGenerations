@@ -6,6 +6,7 @@ export default function WordCard({ word, categoryId }) {
   const [hint, setHint] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isLiked, setIsLiked] = useState(false)
 
   const fetchHint = async () => {
     try {
@@ -46,30 +47,35 @@ export default function WordCard({ word, categoryId }) {
   };
 
   return (
-    <div 
-      className={`card ${isFlipped ? 'flipped' : ''}`}
-      onClick={handleClick}
-    >
-      <div className="card-inner">
-        <div className="card-front">
-          <h3>{word.name}</h3>
-          <p>{word.description}</p>
-          {loading && !isFlipped && (
-            <div className="loading-indicator">Загрузка...</div>
-          )}
-        </div>
-        <div className="card-back">
-          {hint ? (
-            <>
-              <h3>{word.name}</h3>
-              <p className="hint-text">{hint}</p>
-            </>
-          ) : (
-            <p>Подсказка не найдена</p>
-          )}
-          {error && <div className="error-text">{error}</div>}
-        </div>
+    <div className="card-wrapper">
+  <div
+    className={`card ${isFlipped ? "flipped" : ""}`}
+    onClick={handleClick}
+  >
+    <div className="card-inner">
+      <div className="card-front">
+        <h3>{word.name}</h3>
+        <p>{word.description}</p>
+        {loading && !isFlipped && (
+          <div className="loading-indicator">Загрузка...</div>
+        )}
+      </div>
+      <div className="card-back">
+        {hint ? (
+          <>
+            <h3>{word.name}</h3>
+            <p className="hint-text">{hint}</p>
+          </>
+        ) : (
+          <p>Подсказка не найдена</p>
+        )}
+        {error && <div className="error-text">{error}</div>}
       </div>
     </div>
+  </div>
+  <button className={`favorite-button ${isLiked ? 'liked' : ''}`}>
+    {isLiked ? 'Удалить из избранного' : 'Добавить в избранное'}
+  </button>
+</div>
   );
 }

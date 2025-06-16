@@ -1,16 +1,21 @@
-  .words-header {
-padding-left: 60px;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+.words-header {
+  padding-left: 60px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
-  }
+}
 
 .words-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 70px;
+  gap: 100px;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.card-wrapper {
+  position: relative;
+  height: 250px; /* Увеличиваем высоту для кнопки */
 }
 
 .card {
@@ -89,6 +94,39 @@ padding-left: 60px;
   font-size: 0.8rem;
 }
 
+/* Стили для кнопки "Добавить в избранное" */
+.favorite-button {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  padding: 8px 0;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  font-size: 0.9rem;
+  z-index: 2;
+}
+
+.favorite-button:hover {
+  background-color: #218838;
+}
+
+/* Состояние для уже лайкнутых слов */
+.favorite-button.liked {
+  background-color: #dc3545;
+}
+
+.favorite-button.liked:hover {
+  background-color: #c82333;
+}
+
 .error-message {
   color: #dc3545;
   text-align: center;
@@ -100,13 +138,16 @@ padding-left: 60px;
   .words-container {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
+  
+  .card-wrapper {
+    height: 230px;
+  }
 }
 
+/* Остальные стили (формы, модальные окна и т.д.) остаются без изменений */
 .form-group {
   margin-bottom: 20px;
   width: 100%;
-  /* margin-left: -13px; */
-  
 }
 
 .form-group label {
@@ -130,6 +171,8 @@ padding-left: 60px;
   transition: all 0.3s ease;
   background-color: #f8f9fa;
 }
+
+/* ... остальные стили остаются без изменений ... */
 
 .form-group input:focus,
 .form-group textarea:focus {

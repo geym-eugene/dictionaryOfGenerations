@@ -19,16 +19,19 @@ const Header = ({ user, logoutHandler }) => {
         <nav className="nav-buttons">
           {user && (
             <>
+              <span className="user-greeting">Привет, {user.username}!</span>
               <Link to="/" className="nav-button">
                 Главная
               </Link>
-              <span className="user-greeting">Привет, {user.username}!</span>
-              <button onClick={handleClick} className="nav-button logout">
-                Выход
-              </button>
+              <Link to="/personal" className="nav-button">
+                Личный кабинет
+              </Link>
               {user?.isAdmin && <Link to="/admin" className="nav-button">
                 ADMIN
               </Link>}
+              <button onClick={handleClick} className="nav-button logout">
+                Выход
+              </button>
               
             </>
           )}
