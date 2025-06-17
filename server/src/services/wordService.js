@@ -7,7 +7,6 @@ class WordService {
         isModer: false,
       },
     });
-    console.log(allWords);
     return allWords;
   }
 

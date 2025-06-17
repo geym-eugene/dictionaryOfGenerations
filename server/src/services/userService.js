@@ -12,8 +12,15 @@ module.exports = class UserService {
   }
 
   static async createLike(id, wordId) {
-    const created = await Like.create({userId: id, wordId: wordId});
-    return created
+    const created = await Like.create({ userId: id, wordId: wordId });
+    return created;
+  }
+
+  static async deleteLike(id, wordId) {
+    const deleted = await Like.destroy({
+      where: { userId: id, wordId: wordId },
+    });
+    return deleted;
   }
 
   // получаем все лайкнутные слова юзера
@@ -23,7 +30,7 @@ module.exports = class UserService {
       where: { id },
       include: [{ model: Word, as: 'likedWords' }],
     });
-    console.log(userWithWords);
+    console.log(userWithWords, '-----__--_-');
     return userWithWords[0].likedWords;
   }
 

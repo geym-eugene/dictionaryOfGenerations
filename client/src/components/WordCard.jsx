@@ -22,16 +22,20 @@ useEffect(() => {
 
     setLikeLoading(true);
     try {
+      console.log(word, 'word');
       const response = await axiosInstance.post("/users/likes", {
         userId: user.id,
         wordId: word.id
       });
-
-      setWord(prev => ({
-        ...prev,
-        likesCount: response.data.likesCount,
-        isLiked: response.data.isLiked
-      }));
+      
+      if(response.status === 200) {
+        setWord(prev => ({
+          ...prev,
+          likesCount: prev.likesCount + 1,
+          isLiked: true
+        }));
+      }
+      
     } catch (error) {
       console.error("Ошибка при добавлении лайка:", error);
     } finally {
@@ -42,18 +46,15 @@ useEffect(() => {
  const handleDeleteLike = async () => {
     setLikeLoading(true);
     try {
-      const response = await axiosInstance.delete("/likes", {
-        data: {
-          userId: user.id,
-          wordId: word.id
-        }
-      });
-
-      setWord(prev => ({
-        ...prev,
-        likesCount: response.data.likesCount,
-        isLiked: response.data.isLiked
-      }));
+      const response = await axiosInstance.delete(`users/likes/${word.id}`)
+      
+      if(response.status === 200) {
+        setWord(prev => ({
+          ...prev,
+          likesCount: prev.likesCount - 1,
+          isLiked: false
+        }));
+      }
     } catch (error) {
       console.error("Ошибка при удалении лайка:", error);
     } finally {

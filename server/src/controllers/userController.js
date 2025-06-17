@@ -30,8 +30,8 @@ module.exports = class CategoryController {
 
   static async getLikedWords(req, res) {
     try {
-      const { userId } = res.locals.user;
-      const likedWords = await UserService.getLikedWords(userId);
+      const { id } = res.locals.user;
+      const likedWords = await UserService.getLikedWords(id);
       if (!likedWords) {
         return res.status(404).send('Нет таких слов');
       }
@@ -58,6 +58,24 @@ module.exports = class CategoryController {
         return res.status(404).send('Такой пользователь не найден');
       }
       res.status(500).json({ message: error.message, text: 'Не удалось получить лайки' });
+    }
+  }
+
+    static async deleteLike(req, res) {
+    try {
+      const { id } = res.locals.user;
+      const { wordId } = req.params;
+      const destroy = await UserService.deleteLike(id, wordId);
+      
+      if (!destroy) {
+        return res.status(404).send('Нет удалось удалить лайк');
+      }
+      res.status(200).json(destroy);
+    } catch (error) {
+      if (error.message === 'Нет такого пользователя') {
+        return res.status(404).send('Такой пользователь не найден');
+      }
+      res.status(500).json({ message: error.message, text: 'Не удалось удалить лайки' });
     }
   }
 };

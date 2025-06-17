@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-// import { useParams } from "react-router";
+import { useParams } from "react-router";
 import axiosInstance from "../axiosInstance";
 import WordCard from "./WordCard";
 // import "./UserPage.css";
 
 export default function UserPage() {
+  const { categoryId } = useParams();
   const [words, setWords] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -12,8 +13,8 @@ export default function UserPage() {
   const fetchWords = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get("/users/likes");
-
+      // НЕПОНЯТНО!!!!!
+      const response = await axiosInstance.get(`/users/likes`); 
       setWords(response.data);
     } catch (err) {
       setError("Не удалось загрузить слова");

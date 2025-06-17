@@ -7,7 +7,6 @@ const wordRouter = express.Router();
 const categoryRouter = express.Router();
 
 wordRouter.get('/', WordController.getAllWords);
-// wordRouter.get('/', WordController.getAllWords);
 
 wordRouter.get('/:wordId', isIdValid('wordId'), WordController.getOneWord);
 

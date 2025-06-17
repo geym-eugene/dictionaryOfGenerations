@@ -81,13 +81,13 @@ function App() {
         <Route
           element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
         > 
-          <Route path="/" element={<HomePage user={user} />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/category/:categoryId" element={<ZoomersPage user={user}/>} />
           <Route path="/personal" element={<UserPage />} />
           
         </Route>
          <Route element={<ProtectedRoute isAllowed={user?.isAdmin} redirectPath="/" />}>
-         <Route path="/admin" element={<AdminPage/>} />
+         <Route path="/admin" element={<AdminPage />} />
          </Route>
         <Route path="*" element={<ErrorPage />} />
       </Routes>

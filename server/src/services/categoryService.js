@@ -20,11 +20,11 @@ class CategoryService {
       include: [{ model: User, as: 'usersWhoLiked' }],
       where: { categoryId: id, isModer: true },
     });
-
-    const data = JSON.parse(JSON.stringify(words)).map((word) => ({
+    const wordsWithoutMetadata = words.map((word) => word.toJSON())
+    const data = wordsWithoutMetadata.map((word) => ({
       ...word,
       likesCount: word.usersWhoLiked.length,
-      isLiked: !!word.usersWhoLiked.find((like) => like.id === userId),
+      isLiked: !!word.usersWhoLiked.find((user) => user.id === userId),
       usersWhoLiked: undefined,
     }));
     return data;

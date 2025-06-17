@@ -7,11 +7,12 @@ function verifyAccessToken(req, res, next) {
     const { user } = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
     res.locals.user = user;
+    
     next();
   } catch (error) {
-    console.log('Access token error');
+    console.log('Access token error', error);
     res.sendStatus(403);
   }
-}
+};
 
-module.exports = verifyAccessToken;
+module.exports = verifyAccessToken
